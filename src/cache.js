@@ -60,20 +60,22 @@ exports.mod = () => {
             mapfile[map].base.exit_access_time = config.Match.CustomTimer;
             mapfile[map].base.escape_time_limit = config.Match.CustomTimer; 
 
-            //No exit Restrictions
-            if (config.Match.NoExitRestrictions === true) {
-                mapfile[map].base.exit_count = 10;
-                mapfile[map].base.MinDistToExitPoint = 0;
-                for (let exit in mapfile[map].base.exits) {
-                    mapfile[map].base.exits[exit].Chance = 100;
-                    mapfile[map].base.exits[exit].PassageRequirement = "None";
-                    mapfile[map].base.exits[exit].ExfiltrationType = "Individual";
-                    mapfile[map].base.exits[exit].Id = "";
-                    mapfile[map].base.exits[exit].Count = 0;
-                    mapfile[map].base.exits[exit].RequirementTip = "";
-                }
-            }
+
         }
+    }
+    //No exit Restrictions
+    if (config.Match.NoExitRestrictions === true) {
+        mapfile[map].base.exit_count = 10;
+        mapfile[map].base.MinDistToExitPoint = 0;
+            for (let exit in mapfile[map].base.exits) {
+                mapfile[map].base.exits[exit].Chance = 100;
+                mapfile[map].base.exits[exit].PassageRequirement = "None";
+                mapfile[map].base.exits[exit].ExfiltrationType = "Individual";
+                mapfile[map].base.exits[exit].Id = "";
+                mapfile[map].base.exits[exit].Count = 0;
+                mapfile[map].base.exits[exit].RequirementTip = "";
+            }
+        
     }
     //BossChance
     if (config.Match.BossChance != false) {
@@ -84,7 +86,7 @@ exports.mod = () => {
         }
     }
         //Hideout Shit
-    //Upgrading timer
+        //Upgrading timer
     if (config.Hideout.FastUpgrade === true) {
         for (let area in hareas.data) {
             for (let stage in hareas.data[area].stages) {
@@ -92,23 +94,23 @@ exports.mod = () => {
             }
         }
     }
-    //Crafting Timer
+    //Crafting timer
     if (config.Hideout.FastProduction === true) {
-        for (let item in hprod.data) {
-            if (config.Hideout.FastBitcoin === true) {
-                //All items and bitcoin farm
-                hprod.data[item].productionTime = 5;
-            } else if (!hprod.data[item].areaType === 20) {
-                //Everything but bitcoin farm
-                hprod.data[item].productionTime = 5;
+        for (let area in hprod.data) {
+            if (hprod.data[area]._id === "5d5c205bd582a50d042a3c0e") {
+                
+                continue    //make it ignore the bitcoinfarm
+            }
+            else{
+                hprod.data[area].productionTime = 5; 
             }
         }
-    }
-    //Only Bitcoin Farm
-    if (config.Hideout.FastBitcoin === true) {
-        for (let item in hprod.data) {
-            if (hprod.data[item].areaType === 20) {
-                hprod.data[item].productionTime = 5;
+    }        
+    //Fast Bitcoin
+    if (config.Hideout.FastBitcoin === true){
+        for (let area in hprod.data) {
+            if(hprod.data[area]._id === "5d5c205bd582a50d042a3c0e"){
+                hprod.data[area].productionTime = 30; // only change speed of the bitcoinfarm
             }
         }
     }
